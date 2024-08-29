@@ -1,0 +1,6 @@
+{
+  "ConnectionStrings": {
+    "DefaultConnection": "Server=localhost;Database=Trains;User=sa;Password=admin@Admin87457;TrustServerCertificate=True;",
+    "DatabaseMenuDishes": "Server=localhost;Database=MenuDishes;User=sa;Password=admin@Admin87457;TrustServerCertificate=True;"
+  }
+}
