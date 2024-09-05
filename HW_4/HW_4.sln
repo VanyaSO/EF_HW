@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HW_4", "HW_4\HW_4.csproj", "{53A4CECA-54DA-4D87-B542-FE8578DA2021}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "hw_4_dop_1", "hw_4_dop_1\hw_4_dop_1.csproj", "{39877337-EE68-4782-B953-F3FEA069ACD5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "hw_4_dop_3", "hw_4_dop_3\hw_4_dop_3.csproj", "{E4DA405F-1A22-4F06-8F1E-E056C2BA4959}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{53A4CECA-54DA-4D87-B542-FE8578DA2021}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{53A4CECA-54DA-4D87-B542-FE8578DA2021}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{53A4CECA-54DA-4D87-B542-FE8578DA2021}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{53A4CECA-54DA-4D87-B542-FE8578DA2021}.Release|Any CPU.Build.0 = Release|Any CPU
+		{39877337-EE68-4782-B953-F3FEA069ACD5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{39877337-EE68-4782-B953-F3FEA069ACD5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{39877337-EE68-4782-B953-F3FEA069ACD5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{39877337-EE68-4782-B953-F3FEA069ACD5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E4DA405F-1A22-4F06-8F1E-E056C2BA4959}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E4DA405F-1A22-4F06-8F1E-E056C2BA4959}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E4DA405F-1A22-4F06-8F1E-E056C2BA4959}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E4DA405F-1A22-4F06-8F1E-E056C2BA4959}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
