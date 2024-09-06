@@ -81,5 +81,12 @@ public class ApplicationContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        modelBuilder.Entity<Company>()
+            .HasMany(c => c.Users)
+            .WithOne(u => u.Company);
+
+        modelBuilder.Entity<User>()
+            .HasMany(u => u.Projects)
+            .WithMany(p => p.Users);
     }
 }

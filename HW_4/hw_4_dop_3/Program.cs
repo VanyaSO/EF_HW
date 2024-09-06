@@ -3,6 +3,14 @@ using Microsoft.EntityFrameworkCore;
 
 namespace hw_4_dop_3;
 
+// Написать программу, содержащую многоуровневую структуру данных. Описать классы: «Страна», «Аэропорт», «Самолет», «Характеристики самолета». Реализовать возможность получение полных данных, а самолете (сам самолет, его характеристики, аэропорт в котором он находится, и страна в которой находится аэропорт). Задачу можно реализовать, используя методы Include / ThenInclude или Lazy Loading. В основной части программы, реализовать возможности: 
+// Добавление страны.
+// Добавление аэропорта.
+// Добавление самолета и его характеристик.
+// Получение полных данных через самолет.
+// Получение полных данных через страну и аэропорт.
+
+
 class Program
 {
     static void Main()
@@ -62,6 +70,18 @@ public class ApplicationContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        modelBuilder.Entity<Airplane>(e =>
+        {
+            e.HasOne(a => a.AirplaneSettings)
+                .WithOne(apls => apls.Airplane);
+            
+            e.HasMany(a => a.Airports)
+                .WithMany(air => air.Airplanes);
+        });
+
+        modelBuilder.Entity<Airport>()
+            .HasOne(a => a.Country)
+            .WithMany(c => c.Airports);
     }
 }
 
