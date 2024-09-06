@@ -53,19 +53,7 @@ class Program
 
         using (ApplicationContext db = new ApplicationContext())
         {
-            Menu menu = db.Menus.Include(m => m.SubMenus).FirstOrDefault(m => m.Id == 1);
-            GetFullTreeMenu(menu, db);
-        }
-    }
-    
-    static void GetFullTreeMenu(Menu menu, ApplicationContext db)
-    {
-        if (menu.SubMenus == null) return;
-        
-        foreach (var submenu in menu.SubMenus)
-        {
-            var getSubMenu = db.Menus.Include(m => m.SubMenus).FirstOrDefault(m => m.Id == submenu.Id);
-            GetFullTreeMenu(getSubMenu, db);
+            var menu = db.Menus.ToList();
         }
     }
 };
