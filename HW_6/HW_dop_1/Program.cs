@@ -183,6 +183,10 @@ class Program
                     {
                         Name = s.Name,
                         Address = s.Address,
+                        Supplier = s.Suppliers.Select(su => new
+                        {
+                            Name = su.Name
+                        }),
                         Products = s.Products.Select(p => new
                         {
                             Name = p.Name,
