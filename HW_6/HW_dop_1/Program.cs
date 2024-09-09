@@ -32,8 +32,8 @@ class Program
         
             List<Supplier> suppliers = new List<Supplier>
             {
-                new Supplier { Name = "Цветочный магнат"},
-                new Supplier { Name = "Все для цветов"},
+                new Supplier { Name = "Цветочный магнат", Products = new List<Product> {products[0], products[1], products[2]}},
+                new Supplier { Name = "Все для цветов", Products = new List<Product> {products[3], products[4]}},
             };
             db.Suppliers.AddRange(suppliers);
             db.SaveChanges();
@@ -209,8 +209,8 @@ class Program
             var task8 = db.StoreProducts
                 .Include(e => e.Store)
                 .Where(e => e.QuantityInStock > 15)
-                .Distinct()
                 .Select(e => e.Product.Name)
+                .Distinct()
                 .ToList();
             
             // 9) Реализовать получение магазинов определенного города через Свойство Shops, в модели Country.
