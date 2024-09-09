@@ -186,7 +186,7 @@ class Program
                         Supplier = s.Suppliers.Select(su => new
                         {
                             Name = su.Name
-                        }),
+                        }).ToList(),
                         Products = s.Products.Select(p => new
                         {
                             Name = p.Name,
