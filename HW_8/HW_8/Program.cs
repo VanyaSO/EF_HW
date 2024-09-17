@@ -15,6 +15,8 @@ public partial class Program
     private static IBook _books;
     private static IPromotion _promotions;
     private static IOrder _orders;
+    private static IReview _reviews;
+    
     
     enum ShopMenu
     {
@@ -83,5 +85,6 @@ public partial class Program
         _categories = new CategoryRepository();
         _books = new BookRepository();
         _orders = new OrderRepository();
+        _reviews = new ReviewRepository();
     }
 };

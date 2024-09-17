@@ -49,7 +49,6 @@ public class BookRepository : IBook
                     var authorsIds = book.Authors.Select(e => e.Id);
                     currentBook.Authors = await context.Authors.Where(e => authorsIds.Contains(e.Id)).ToListAsync();
 
-
                     context.Books.Update(currentBook);
                     await context.SaveChangesAsync();
                 }

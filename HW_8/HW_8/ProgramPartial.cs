@@ -304,6 +304,28 @@ public partial class Program
             else
                 break;
         }
+
+
+        List<Review> bookReviews = new List<Review>();
+        int reviewAction;
+        while (true)
+        {
+            reviewAction = ItemsHelper.MultipleChoice(true, new List<ItemView>
+                {
+                    new ItemView {Id = 1, Value = "Yes"},
+                    new ItemView {Id = 0, Value = "No"}
+                }, message: $"Create new review ?", startY: 5, optionsPerLine: 1);
+
+            if (reviewAction != 0)
+            {
+                bookReviews.Add(CreateReview());
+                Console.WriteLine("Review successfully add.");
+                Console.WriteLine("Press any key to continue");
+                Console.ReadKey();
+            }
+            else
+                break;
+        }
         
         var allCategories = await _categories.GetAllCategoriesAsync();
         int selectedCategoryId = ItemsHelper.MultipleChoice(true, 
@@ -311,7 +333,7 @@ public partial class Program
             message: "Select 'Category' for book", 
             startY: 5, optionsPerLine: 1);
         
-        await _books.AddBookAsync(new Book {Title = title, Description = description, PublishedOn = publishedOn, Publisher = publisher, Price = price, Promotion = promotion, Authors = bookAuthors, CategoryId = selectedCategoryId});
+        await _books.AddBookAsync(new Book {Title = title, Description = description, PublishedOn = publishedOn, Publisher = publisher, Price = price, Promotion = promotion, Authors = bookAuthors, Reviews = bookReviews, CategoryId = selectedCategoryId});
         Console.WriteLine("Book successfully add.");
         Console.WriteLine("\nPress any key to continue");
         Console.ReadKey();
@@ -380,17 +402,18 @@ public partial class Program
             }
         }
         
+        
         var allAuthors = await _authors.GetAllAuthorsAsync();
         var authors = allAuthors.Select(e => new ItemView { Id = e.Id, Value = e.Name }).ToList();
         authors.Insert(0, new ItemView {Id = 0, Value = "Сontinue..."});
-
+        
         int selectedAuthorId;
         while (true)
         {
             string currentAuthorsMessage = "\nCurrent authors: ";
             foreach (var bAuthor in book.Authors)
                 currentAuthorsMessage += $"{bAuthor.Name}, ";
-
+        
             selectedAuthorId = ItemsHelper.MultipleChoice(true, authors,
                 message: $"Changing: book authors \n{currentAuthorsMessage}", startY: 5, optionsPerLine: 1);
             
@@ -398,6 +421,38 @@ public partial class Program
                 EditAuthorsBook(book, selectedAuthorId);
             else            
                 break;
+        }
+
+        int reviewAction, selectedReviewId;
+        while (true)
+        {
+            var allReviews = await _reviews.GetAllReviewsAsync(book.Id);
+            var reviews = allReviews.Select(e => new ItemView { Id = e.Id, Value = string.Concat(e.UserEmail, "-", e.Comment) }).ToList();
+            reviews.Insert(0, new ItemView {Id = 0, Value = "Back..."});
+            
+            reviewAction = ItemsHelper.MultipleChoice(true, new List<ItemView>
+            {
+                new ItemView {Id = 0, Value = "Continue..."},
+                new ItemView {Id = 1, Value = "Add"},
+                new ItemView {Id = 2, Value = "Delete"}
+            }, message: "What do you want to do with the reviews ?", startY: 5, optionsPerLine: 1);
+
+            switch (reviewAction)
+            {
+                case 1:
+                    Review newReview = CreateReview();
+                    newReview.BookId = book.Id;
+                    await _reviews.AddReviewAsync(newReview);
+                    continue;
+                case 2:
+                    selectedReviewId = ItemsHelper.MultipleChoice(true, reviews, message: "Select review for remove ?", startY: 5, optionsPerLine: 1);
+                    if (selectedReviewId != 0)
+                        await _reviews.DeleteReviewAsync(book.Reviews.FirstOrDefault(e => e.Id == selectedReviewId));
+                    continue;
+                case 0:
+                    break;
+            }
+            break;
         }
         
         var allCategories = await _categories.GetAllCategoriesAsync();
@@ -414,7 +469,7 @@ public partial class Program
         Console.WriteLine("\nPress any key to continue");
         Console.ReadKey();
     }
-    private static Promotion CreatePromotion()
+    static Promotion CreatePromotion()
     {
         string name = InputHelper.GetString("promotion 'Name'");
         int variantPromotion = ItemsHelper.MultipleChoice(true, new List<ItemView>
@@ -437,7 +492,15 @@ public partial class Program
 
         return new Promotion { Name = name, Percent = percent, Amount = amount };
     }
-    private static async Task EditPromotion(Promotion promotion)
+    static Review CreateReview()
+    {
+        string userName = InputHelper.GetString("review 'user name'"); 
+        string userEmail = InputHelper.GetString("review 'user email'"); 
+        string comment = InputHelper.GetString("review 'comment'");
+        byte stars = (byte)InputHelper.GetInt("review 'stars'");
+        return new Review {UserName = userName, UserEmail = userEmail, Comment = comment, Stars = stars};
+    }
+    static async Task EditPromotion(Promotion promotion)
     {
         Console.WriteLine("Changing: {0}", promotion.Name);
         promotion.Name = InputHelper.GetString("promotion 'Name'");
@@ -453,7 +516,7 @@ public partial class Program
             promotion.Amount = InputHelper.GetDecimal("promotion 'Amount'");
         }
     }
-    private static async Task EditAuthorsBook(Book book, int authorId)
+    static async Task EditAuthorsBook(Book book, int authorId)
     {
         List <ItemView> menuForAuthor =  new List<ItemView>();
         if (!book.Authors.Select(e => e.Id).Contains(authorId))
